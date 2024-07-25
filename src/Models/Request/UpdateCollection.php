@@ -24,6 +24,19 @@ class UpdateCollection implements RequestModel
 
     protected ?QuantizationConfig $quantizationConfig = null;
 
+    protected array $vectors = [];
+
+    public function addVector(VectorParams $vectorParams, string $name = null): UpdateCollection
+    {
+        if ($name !== null) {
+            $this->vectors[$name] = $vectorParams->toArray();
+        } else {
+            $this->vectors = $vectorParams->toArray();
+        }
+
+        return $this;
+    }
+
     public function setOptimizersConfig(OptimizersConfig $optimizersConfig): UpdateCollection
     {
         $this->optimizersConfig = $optimizersConfig;
@@ -55,6 +68,9 @@ class UpdateCollection implements RequestModel
     public function toArray(): array
     {
         $data = [];
+        if ($this->vectors) {
+            $data['vectors'] = $this->vectors;
+        }
         if ($this->optimizersConfig) {
             $data['optimizers_config'] = $this->optimizersConfig->toArray();
         }
