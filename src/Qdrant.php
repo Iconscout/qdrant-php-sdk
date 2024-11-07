@@ -16,8 +16,14 @@ use Qdrant\Http\Transport;
 
 class Qdrant implements ClientInterface
 {
-    public function __construct(private readonly Transport $transport)
+    /**
+     * @var Transport
+     */
+    private $transport;
+
+    public function __construct(Transport $transport)
     {
+        $this->transport = $transport;
     }
 
     public function collections(string $collectionName = null): Collections

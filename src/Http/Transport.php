@@ -15,11 +15,20 @@ use Qdrant\Config;
 
 class Transport implements ClientInterface
 {
-    public function __construct(
-        private readonly ClientInterface $client,
-        private readonly Config $config
-    )
+    /**
+     * @var ClientInterface
+     */
+    private $client;
+
+    /**
+     * @var Config
+     */
+    private $config;
+
+    public function __construct(ClientInterface $client, Config $config)
     {
+        $this->client = $client;
+        $this->config = $config;
     }
 
     private function prepareHeaders(RequestInterface $request): RequestInterface
